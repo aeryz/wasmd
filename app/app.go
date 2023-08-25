@@ -119,6 +119,9 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 	ibctm "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
+	ibcwasm "github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm"
+	ibcwasmkeeper "github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm/keeper"
+	ibcwasmtypes "github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm/types"
 	"github.com/spf13/cast"
 
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
@@ -218,6 +221,7 @@ var (
 		wasm.AppModuleBasic{},
 		ibc.AppModuleBasic{},
 		ibctm.AppModuleBasic{},
+		ibcwasm.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		ica.AppModuleBasic{},
 		ibcfee.AppModuleBasic{},
@@ -281,6 +285,7 @@ type WasmApp struct {
 	ICAControllerKeeper icacontrollerkeeper.Keeper
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
+	WasmClientKeeper    ibcwasmkeeper.Keeper
 	WasmKeeper          wasmkeeper.Keeper
 
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
@@ -330,7 +335,7 @@ func NewWasmApp(
 		evidencetypes.StoreKey, capabilitytypes.StoreKey,
 		authzkeeper.StoreKey, nftkeeper.StoreKey, group.StoreKey,
 		// non sdk store keys
-		ibcexported.StoreKey, ibctransfertypes.StoreKey, ibcfeetypes.StoreKey,
+		ibcexported.StoreKey, ibctransfertypes.StoreKey, ibcwasmtypes.StoreKey, ibcfeetypes.StoreKey,
 		wasmtypes.StoreKey, icahosttypes.StoreKey,
 		icacontrollertypes.StoreKey,
 	)
@@ -457,6 +462,8 @@ func NewWasmApp(
 		groupConfig.MaxMetadataLen = 1000
 	*/
 	app.GroupKeeper = groupkeeper.NewKeeper(keys[group.StoreKey], appCodec, app.MsgServiceRouter(), app.AccountKeeper, groupConfig)
+
+	app.WasmClientKeeper = ibcwasmkeeper.NewKeeper(appCodec, keys[ibcwasmtypes.StoreKey], nil)
 
 	// get skipUpgradeHeights from the app options
 	skipUpgradeHeights := map[int64]bool{}
@@ -682,6 +689,7 @@ func NewWasmApp(
 		ibc.NewAppModule(app.IBCKeeper),
 		transfer.NewAppModule(app.TransferKeeper),
 		ibcfee.NewAppModule(app.IBCFeeKeeper),
+		ibcwasm.NewAppModule(app.WasmClientKeeper),
 		ica.NewAppModule(&app.ICAControllerKeeper, &app.ICAHostKeeper),
 		crisis.NewAppModule(app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)), // always be last to make sure that it checks for all invariants and not only part of them
 	)
@@ -702,6 +710,7 @@ func NewWasmApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		ibcwasmtypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -717,6 +726,7 @@ func NewWasmApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		ibcwasmtypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -735,6 +745,7 @@ func NewWasmApp(
 		feegrant.ModuleName, nft.ModuleName, group.ModuleName, paramstypes.ModuleName, upgradetypes.ModuleName,
 		vestingtypes.ModuleName, consensusparamtypes.ModuleName,
 		// additional non simd modules
+		ibcwasmtypes.ModuleName,
 		ibctransfertypes.ModuleName,
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
