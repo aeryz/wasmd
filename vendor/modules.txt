@@ -541,7 +541,6 @@ github.com/cosmos/cosmos-sdk/x/staking/migrations/v2
 github.com/cosmos/cosmos-sdk/x/staking/migrations/v3
 github.com/cosmos/cosmos-sdk/x/staking/migrations/v4
 github.com/cosmos/cosmos-sdk/x/staking/simulation
-github.com/cosmos/cosmos-sdk/x/staking/testutil
 github.com/cosmos/cosmos-sdk/x/staking/types
 github.com/cosmos/cosmos-sdk/x/upgrade
 github.com/cosmos/cosmos-sdk/x/upgrade/client
@@ -584,7 +583,6 @@ github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/client/cli
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/client/cli
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper
-github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/migrations/v6
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/genesis/types
 github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host
@@ -637,18 +635,11 @@ github.com/cosmos/ibc-go/v7/modules/core/simulation
 github.com/cosmos/ibc-go/v7/modules/core/types
 github.com/cosmos/ibc-go/v7/modules/light-clients/06-solomachine
 github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint
-github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint/migrations
 github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm
 github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm/client/cli
 github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm/keeper
 github.com/cosmos/ibc-go/v7/modules/light-clients/08-wasm/types
 github.com/cosmos/ibc-go/v7/modules/light-clients/09-localhost
-github.com/cosmos/ibc-go/v7/testing
-github.com/cosmos/ibc-go/v7/testing/mock
-github.com/cosmos/ibc-go/v7/testing/simapp
-github.com/cosmos/ibc-go/v7/testing/simapp/params
-github.com/cosmos/ibc-go/v7/testing/simapp/upgrades
-github.com/cosmos/ibc-go/v7/testing/types
 # github.com/cosmos/ics23/go v0.10.0
 ## explicit; go 1.19
 github.com/cosmos/ics23/go
@@ -1054,7 +1045,6 @@ github.com/spf13/viper/internal/encoding/yaml
 ## explicit; go 1.20
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
-github.com/stretchr/testify/suite
 # github.com/subosito/gotenv v1.4.2
 ## explicit; go 1.18
 github.com/subosito/gotenv
